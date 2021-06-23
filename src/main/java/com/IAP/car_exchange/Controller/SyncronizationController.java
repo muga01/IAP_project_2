@@ -34,7 +34,7 @@ public class SyncronizationController {
 	private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 	
-	//@Scheduled(fixedDelay=SynchronizationConfiguration.delay)
+	@Scheduled(fixedDelay=SynchronizationConfiguration.delay)
 	public void synchronizeRequests() {
 		logger.info("Scheduled Synchronization Task for requests :: Execution Time - {}",dateFormat.format(LocalDateTime.now()));
 		try {
@@ -44,7 +44,7 @@ public class SyncronizationController {
 		}
 	}
 	
-	//@Scheduled(fixedDelay=SynchronizationConfiguration.delay)
+	@Scheduled(fixedDelay=SynchronizationConfiguration.delay)
 	//@GetMapping("added")
 	public @ResponseBody void synchronizeUsers() {
 		logger.info("Scheduled Synchronization Task for users :: Execution Time - {}",dateFormat.format(LocalDateTime.now()));
