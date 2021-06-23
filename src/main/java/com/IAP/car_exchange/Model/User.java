@@ -3,6 +3,8 @@ package com.IAP.car_exchange.Model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,6 +25,8 @@ public class User {
     @Id
     @NotNull
     //@GeneratedValue(strategy = GenerationType.AUTO)
+    @Min(40000)
+    @Max(60000)
     private long id;
     
 
@@ -39,7 +43,7 @@ public class User {
     @Getter
     @Setter
     @Column(name = "surname")
-    private String surName;
+    private String surname;
 
     @Getter
     @Setter
@@ -79,11 +83,16 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false, referencedColumnName = "id")
     private Role roleId;
     
+    @Getter
+    @Setter
+    @Column(name = "sync")
+    private Boolean sync;
+    
 
-    public User(String firstName, String middleName, String surName, String pesel, char gender, Date birthDate,Role roleId,Office officeId){
+    public User(String firstName, String middleName, String surname, String pesel, char gender, Date birthDate,Role roleId,Office officeId){
         this.firstName = firstName;
         this.middleName = middleName;
-        this.surName = surName;
+        this.surname = surname;
         this.pesel = pesel;
         this.gender = gender;
         this.birthDate = birthDate;

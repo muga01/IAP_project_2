@@ -13,4 +13,6 @@ public class UserData {
     String birthDate;
     Long roleId;
     Long officeId;
+    Boolean sync;
+
 }

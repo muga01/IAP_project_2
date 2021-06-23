@@ -51,22 +51,30 @@ public class Querries {
         return userRepository.findAll();
     }
 
-    public User addUser(Long id,String firstName, String middleName, String surName, String pesel, char gender, Date birthDate, Long roleId, Long officeId){
+    public User addUser(Long id,String firstName, String middleName, String surname, String pesel, 
+    		char gender, Date birthDate, Long roleId, Long officeId, Boolean sync){
     	Office office = officeRepository.findById(officeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid office Id: " + officeId));
        Role role = roleRepository.findById(roleId)
                .orElseThrow(() -> new IllegalArgumentException("Invalid role Id: " + roleId));
+       
+       User myUser = userRepository.getUserWithId(id);
+       
+       if (myUser != null) {
+    	   throw new IllegalStateException();
+       }
 
        User user = User.builder()
     		   	.id(id)
     		   	.firstName(firstName)
                 .middleName(middleName)
-                .surName(surName)
+                .surname(surname)
                 .pesel(pesel)
                 .gender(gender)
                 .birthDate(birthDate)
                 .roleId(role)
                 .officeId(office)
+                .sync(sync)
                 .build();
        userRepository.save(user);
        
@@ -94,7 +102,7 @@ public class Querries {
         }
         user.setFirstName(userData.getFirstName());
         user.setMiddleName(userData.getMiddleName());
-        user.setSurName(userData.getSurname());
+        user.setSurname(userData.getSurname());
         user.setPesel(userData.getPesel());
         user.setGender(userData.getGender());
         user.setBirthDate(date);
@@ -164,11 +172,17 @@ public class Querries {
     public Iterable<Office> getAllOffices(){
         return officeRepository.findAll();
     }
-    public Office addOffice(Long id,String city, String type){
+    public Office addOffice(Long id,String city, String type,String address){
+    	Boolean amThere = officeRepository.officeExists(id);
+    	if(amThere == true) {
+    		throw new IllegalArgumentException("The office exists already = " + id + "!");
+    	}
         Office office = Office.builder()
         		.id(id)
                 .city(city)
                 .type(type)
+                .address(address)
+                .sync(false)
                 .build();
         officeRepository.save(office);
         return office;
